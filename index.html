@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target Follow-up</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Cairo & Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+        }
+        .font-en {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-diamond {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        }
+        .gradient-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        .gradient-silver {
+            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+        }
+        .gradient-brand {
+            background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+        }
+        .gradient-total {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+
+        :root{--ink:#162b42;--teal:#0c9488}
+        body{background:radial-gradient(ellipse at 95% 0%,#d9f2ef 0,transparent 38%),#f3f6fa;color:var(--ink);line-height:1.7}
+        header{background:rgba(255,255,255,.92)!important;backdrop-filter:blur(18px);border-bottom:1px solid #dbe6ed!important}
+        header h1{font-size:1.5rem!important;color:#16344a!important}
+        header button,header select{min-height:42px}
+        button{transition:background .2s,box-shadow .2s,transform .2s!important}
+        button:hover{transform:translateY(-1px)}
+        button:focus-visible,select:focus-visible{outline:3px solid #5eead4;outline-offset:3px}
+        .card-shadow{box-shadow:0 5px 10px -7px #17354b22,0 14px 36px -20px #17354b44!important;border-color:#e2eaf1!important;transition:transform .25s,box-shadow .25s}
+        .card-shadow:hover{transform:translateY(-3px);box-shadow:0 16px 42px -22px #17354b66!important}
+        .card-shadow.relative{border-radius:22px!important}
+        .overview-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+        .eyebrow{font-family:Inter,sans-serif;font-size:10px;letter-spacing:2.4px;font-weight:800;color:#168c83}
+        .overview-heading h2{font-size:29px;font-weight:800;letter-spacing:-.7px;margin:3px 0;color:#16344a}
+        .overview-heading p{color:#718197;font-size:12px}
+        .saved-state{background:#fff;border:1px solid #dce8e7;color:#32756f;border-radius:30px;padding:9px 16px;font-size:11px;font-weight:700;box-shadow:0 4px 14px #153c3410}
+        #dailyStatusBanner{border-radius:22px;border-color:#dfe8ef;box-shadow:0 8px 32px -22px #153c3455}
+        [id$="Achieved"]{font-family:Inter,Cairo,sans-serif;letter-spacing:-.5px}
+        input[type=number]{direction:ltr;text-align:right;padding-left:42px!important;min-height:44px;border-radius:12px;background:#f7f9fc;transition:.2s}
+        input[type=number]:focus{box-shadow:0 0 0 4px #14b8a618;border-color:#14b8a6;background:white}
+        #targetModal>div,#achievedModal>div{max-height:90dvh;overflow:auto;border-radius:24px}
+        #targetModal form .grid,#achievedModal form .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+        #targetModal label,#achievedModal label{display:block;margin-bottom:6px}
+        [hidden]{display:none!important}
+        @media(max-width:640px){header>div{align-items:stretch!important;gap:12px!important}header>div>div:first-child{justify-content:center}header>div>div:last-child{display:grid;grid-template-columns:1fr 1fr;width:100%}header>div>div:last-child>div:first-child{grid-column:1/-1}#monthSelect{width:100%}header button{justify-content:center;padding:8px!important}main{padding-top:22px!important}.overview-heading{align-items:flex-start}.overview-heading h2{font-size:25px}.saved-state{font-size:10px;padding:7px 10px;max-width:135px;text-align:center}#dailyStatusBanner{padding:16px}#dailyStatusBanner>div:first-child{width:100%;gap:10px}#dailyStatusBanner .flex.items-center.gap-2{flex-wrap:wrap}#statusTitle{font-size:14px;line-height:1.9}.card-shadow:hover{transform:none}}
+        @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+        .period-picker{display:flex;align-items:center;gap:12px;background:#f5f8fb;border:1px solid #dbe5ed;border-radius:15px;padding:7px 14px;box-shadow:inset 0 1px 2px #16344a05}
+        .period-field{display:flex;align-items:center;gap:8px;flex:1}
+        .period-field label{font-size:10px;color:#7c8b9d;font-weight:700}
+        .period-field select{min-height:30px;background:transparent;border:0;color:#16344a;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;padding:2px 5px;max-width:130px}
+        .period-divider{width:1px;height:23px;background:#dce5ed}
+        @media(max-width:640px){.period-picker{justify-content:center}.period-field select{width:100%;max-width:none}.period-field{min-width:0}header h1{font-size:1.4rem!important}}
+        .total-heading{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+        .total-heading-target{display:flex;align-items:baseline;gap:8px;border-inline-start:1px solid #dce8e7;padding-inline-start:20px}
+        .total-heading-target>span{color:#718197;font-size:11px;font-weight:700}
+        .total-heading-target strong{font-family:Inter,Cairo,sans-serif;font-size:27px;font-weight:800;color:#0f766e;letter-spacing:-.6px}
+        @media(max-width:640px){.total-heading{gap:4px;align-items:flex-start;flex-direction:column}.total-heading-target{border:0;padding:0;gap:6px}.total-heading-target strong{font-size:22px}}
+        .section-heading{display:flex;justify-content:flex-start;margin:0 0 16px}
+        .section-chip{display:inline-flex;align-items:center;gap:11px;padding:9px 18px 9px 10px;border:1px solid #c8e5df;border-radius:14px;background:linear-gradient(120deg,#fff,#edf9f5);color:#145b50;font:800 17px Inter,Cairo,sans-serif;box-shadow:0 5px 16px #145b5008}
+        .section-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(140deg,#14b8a6,#0f766e);color:white;box-shadow:0 4px 10px #0f766e25;font-size:16px}
+        .power-chip{background:linear-gradient(120deg,#fff,#f4f0ff);border-color:#e1d7f6;color:#614293}
+        .power-chip .section-icon{background:linear-gradient(140deg,#a78bfa,#7c3aed);box-shadow:0 4px 10px #7c3aed25}
+        .metric-caption{display:block;color:#7b8b9e;font-size:11px;font-weight:700;margin-bottom:3px}
+        .metric-target strong{display:block;font-family:Inter,Cairo,sans-serif;font-size:29px;font-weight:800;color:#0f766e;letter-spacing:-.7px;line-height:1.5}
+        .compact-target{padding-bottom:13px;margin-bottom:12px;border-bottom:1px solid #eef2f6}
+        .compact-target strong{font-size:23px;color:#20374d}
+        @media(max-width:640px){.metric-target strong{font-size:25px}.compact-target strong{font-size:23px}.section-chip{font-size:15px}}
+        .total-pace-display{display:flex;justify-content:center;align-items:center;margin-bottom:14px}
+        #totalSalesBadge{font-family:Inter,Cairo,sans-serif;font-size:clamp(38px,5vw,56px)!important;font-weight:800;line-height:1.2;letter-spacing:-1.8px;background:transparent!important;padding:0!important;direction:ltr;display:block}
+        #totalSalesBar{min-height:12px}
+
+        /* Responsive typography, spacing and touch layout */
+        html{font-size:16px;-webkit-text-size-adjust:100%;scroll-padding-top:100px}
+        *{box-sizing:border-box}
+        body{font-family:Cairo,system-ui,sans-serif;font-weight:600;-webkit-font-smoothing:antialiased;background:radial-gradient(ellipse at 100% 0%,#dff3ee 0,transparent 35%),#f4f7fa;padding-bottom:max(28px,env(safe-area-inset-bottom))}
+        main{max-width:1240px!important;padding-top:28px!important}
+        header>div{max-width:1240px!important;gap:20px}
+        header h1{font-size:21px!important;letter-spacing:-.7px}
+        header>div>div:first-child>div:first-child{padding:10px;border-radius:13px;box-shadow:none}
+        header button{min-height:44px;border-radius:12px;font-size:12px;box-shadow:none!important}
+        .period-picker{padding:3px 12px;gap:8px}
+        .period-field select{min-height:40px;font-size:14px}
+        .overview-heading{margin-bottom:20px}.overview-heading h2{font-size:28px;line-height:1.65}.overview-heading p{font-size:13px;color:#64748b}
+        .eyebrow{font-size:9px;letter-spacing:2px}
+        .section-heading{margin:0 0 12px}.section-chip{padding:7px 15px 7px 8px;border-radius:12px;font-size:15px;gap:9px}.section-icon{width:31px;height:31px;font-size:14px}
+        .card-shadow{box-shadow:0 5px 20px -10px #1e405b25!important}
+        .card-shadow:hover{transform:none;box-shadow:0 8px 24px -12px #1e405b35!important}
+        #dailyStatusBanner{padding:20px;margin-bottom:26px;gap:20px}
+        #statusIconBg{flex-shrink:0;width:42px;height:42px;border-radius:12px}
+        #statusTitle{font-size:14px;line-height:1.85;margin-top:5px}
+        .status-metrics{gap:20px;flex-shrink:0}.status-metrics>div{min-width:0}.status-metrics>div>span:first-child{font-size:10px;line-height:1.8}.status-metrics>div>span:last-child{font-size:15px;font-variant-numeric:tabular-nums;display:block;white-space:nowrap}
+        .total-section{margin-bottom:26px}.total-section>.card-shadow{padding:24px}
+        .total-section .metric-target strong{font-size:32px}.total-section .metric-caption{font-size:12px}
+        .total-summary{margin:0;gap:24px;grid-template-columns:minmax(230px,1fr) minmax(0,2fr)}
+        .total-summary>div:nth-child(2){grid-column:auto}.total-summary>div:first-child{padding:15px 0 0}
+        #totalSalesAchieved{font-size:26px;line-height:1.65;margin-bottom:6px}
+        .total-pace-display{margin:0 0 12px}#totalSalesBadge{font-size:52px!important;line-height:1.1}
+        .total-rates{margin-top:20px;padding-top:18px;gap:10px}
+        .total-rates>div:first-child{padding:14px}.total-rates>div:last-child{padding:8px;gap:8px}
+        .total-rates>div:last-child>div{padding:10px 6px}.total-rates [id*="Daily"]{font-variant-numeric:tabular-nums;line-height:1.7}
+        .power-grid{gap:16px;margin-bottom:24px;grid-template-columns:repeat(4,minmax(0,1fr))}
+        .power-grid>.card-shadow{padding:20px 16px;border-radius:18px!important}
+        .power-grid h4{font-size:14px}.power-grid [id$="Badge"]{font-family:Inter,sans-serif;font-size:12px;direction:ltr;white-space:nowrap}
+        .metric-target strong,[id$="Achieved"]{font-variant-numeric:tabular-nums;letter-spacing:-.5px;overflow-wrap:anywhere}
+        .compact-target{padding-bottom:10px;margin-bottom:10px}.compact-target strong{font-size:23px;line-height:1.5}
+        .metric-caption{font-size:11px;color:#64748b}.power-grid [id$="Achieved"]{font-size:21px;line-height:1.6}
+        .power-grid .text-\[10px\]{font-size:11px;line-height:1.9}.power-grid .text-\[11px\]{font-size:11px}
+        input[type=number]{font-family:Inter,Cairo,sans-serif;font-size:16px!important;min-height:48px;padding:10px 12px!important}
+        #targetTotalSales,#achievedTotalSales{padding-left:42px!important}
+        #targetModal,#achievedModal{padding:20px;overscroll-behavior:contain}
+        #targetModal>div,#achievedModal>div{max-height:calc(100dvh - 40px);padding:24px;scrollbar-width:thin;overscroll-behavior:contain}
+        #targetModal form button,#achievedModal form button{min-height:46px}
+        #targetModal label,#achievedModal label{font-size:12px;line-height:1.7}
+        @media(min-width:641px) and (max-width:1100px){header>div{flex-direction:column;align-items:stretch}header>div>div:first-child{justify-content:center}header>div>div:last-child{justify-content:center}#dailyStatusBanner{flex-direction:column;align-items:stretch}.status-metrics{width:100%;border:0!important;border-top:1px solid #edf2f7!important;padding:16px 0 0!important;justify-content:space-around}.power-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+        @media(max-width:640px){
+            header{position:relative!important}header>div{padding:14px 16px!important;gap:12px!important}header h1{font-size:20px!important}header>div>div:first-child{justify-content:flex-start!important}header>div>div:first-child>div:first-child{padding:8px}header>div>div:first-child i{font-size:20px}
+            header>div>div:last-child{gap:8px!important;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}header button{font-size:12px;gap:7px;min-height:46px}.period-picker{border-radius:12px;padding:2px 12px}.period-field label{font-size:11px}.period-field select{font-size:16px;min-height:44px}
+            main{padding:20px 16px 0!important}.overview-heading{margin-bottom:18px}.overview-heading h2{font-size:25px}.overview-heading p{font-size:12px}
+            #dailyStatusBanner{padding:16px;margin-bottom:22px;gap:14px;align-items:stretch}.status-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;width:100%;padding:13px 0 0!important}.status-metrics>div{padding:0 3px}.status-metrics>div>span:first-child{font-size:10px;min-height:36px;display:flex;align-items:center;justify-content:center}.status-metrics>div>span:last-child{font-size:12px;white-space:normal;overflow-wrap:anywhere}#statusTitle{font-size:13px;line-height:1.9}#dailyStatusBanner>div:first-child>div:last-child{min-width:0}#dayProgressBadge,#remainingDaysBadge{font-size:10px}#dailyStatusBanner>div:first-child>div:last-child>div>span:first-child{flex-basis:100%;font-size:10px}
+            .total-section>.card-shadow{padding:20px 16px}.total-section{margin-bottom:22px}.total-section .metric-target strong{font-size:29px}.total-summary{grid-template-columns:1fr;gap:18px}.total-summary>div:first-child{padding-top:8px}#totalSalesAchieved{font-size:25px}.total-summary>div:nth-child(2){padding:16px 0 2px;border-top:1px solid #eef3f6}#totalSalesBadge{font-size:48px!important}.total-rates{grid-template-columns:1fr;margin-top:16px;padding-top:16px}.total-rates>div:last-child{grid-template-columns:repeat(2,minmax(0,1fr));padding:8px;gap:8px}.total-rates>div:first-child{flex-direction:row;gap:10px;padding:10px}.total-rates>div:first-child>span{margin:0}.total-rates>div:last-child [id*="Daily"]{font-size:13px}
+            .power-grid{grid-template-columns:1fr;gap:14px}.power-grid>.card-shadow{padding:19px 17px}.power-grid h4{font-size:15px}.power-grid [id$="Badge"]{font-size:14px;padding:5px 10px}.compact-target strong{font-size:26px!important}.power-grid [id$="Achieved"]{font-size:24px}.power-grid .text-\[10px\]{font-size:12px}.power-grid .text-\[11px\]{font-size:12px}.power-grid [id*="Daily"]{font-size:13px}.power-grid .space-y-1>div{padding:3px 0}.power-grid .metric-caption{font-size:12px}
+            #targetModal,#achievedModal{padding:12px;align-items:center}#targetModal>div,#achievedModal>div{padding:20px 16px;max-height:calc(100dvh - 24px);border-radius:20px}#targetModal h3,#achievedModal h3{font-size:17px}#targetModal form .grid,#achievedModal form .grid{gap:12px}#targetModal form>.pt-4{display:grid;grid-template-columns:1fr 1fr}#targetModal form>.pt-4>button:first-child{grid-column:1/-1}#targetModal label,#achievedModal label{font-size:11px}
+        }
+        @media(max-width:360px){main{padding-inline:12px!important}.status-metrics>div>span:last-child{font-size:11px}.period-picker{padding-inline:8px}.total-section .metric-target strong{font-size:26px}#statusIconBg{width:34px;height:34px}.power-grid>.card-shadow{padding-inline:14px}}
+        @media(hover:none){button:hover{transform:none}.card-shadow:hover{box-shadow:0 5px 20px -10px #1e405b25!important}}
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-12">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="p-3 bg-teal-600 text-white rounded-2xl shadow-md shadow-teal-200">
+                    <i class="fa-solid fa-chart-line text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-extrabold text-slate-800 font-en tracking-tight">Target Follow-up</h1>
+                </div>
+            </div>
+
+            <!-- Controls: Month Selector & Action Buttons -->
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                <div class="period-picker" role="group" aria-label="اختيار العام والشهر">
+                    <div class="period-field"><label for="yearSelect">العام</label><select id="yearSelect" aria-label="العام"></select></div>
+                    <span class="period-divider" aria-hidden="true"></span>
+                    <div class="period-field"><label for="monthSelect">الشهر</label><select id="monthSelect" aria-label="الشهر"></select></div>
+                </div>
+
+                <!-- Set Monthly Target -->
+                <button id="targetAction" onclick="openTargetModal()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-md transition-all cursor-pointer">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span id="targetActionLabel">التارجت</span>
+                </button>
+
+                <!-- Record Daily Progress -->
+                <button onclick="openAchievedModal()" class="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-teal-100 transition-all cursor-pointer">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>المبيعات حتى أمس</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+
+        <div class="overview-heading"><div><span class="eyebrow">MONTHLY PERFORMANCE</span><h2 id="periodTitle"></h2><p>تابع أداءك، واقترب من هدفك.</p></div></div>
+        <!-- Top Daily Rate Indicator Banner -->
+        <div id="dailyStatusBanner" class="mb-8 rounded-2xl p-5 bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div id="statusIconBg" class="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl font-bold bg-slate-400">
+                    <i id="statusIcon" class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase">حالة المبيعات اليومية</span>
+                        <span id="dayProgressBadge" class="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full font-bold">اليوم 1 من 31</span>
+                        <span id="remainingDaysBadge" class="text-xs bg-teal-50 text-teal-700 px-2 py-0.5 rounded-full font-bold">متبقي 30 يوم</span>
+                    </div>
+                    <h2 id="statusTitle" class="text-lg font-bold text-slate-800">يرجى تحديد المستهدفات بداية الشهر</h2>
+                </div>
+            </div>
+            
+            <div class="status-metrics flex items-center gap-6 text-center md:text-right border-t md:border-t-0 md:border-r border-slate-100 pt-3 md:pt-0 pr-0 md:pr-6 w-full md:w-auto justify-around">
+                <div>
+                    <span class="text-xs text-slate-500 block">المفترض تحقيقه حتي أمس</span>
+                    <span id="expectedAmount" class="text-base font-bold text-slate-700">0 ر.س</span>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-500 block">المبيعات حتى أمس</span>
+                    <span id="actualAmount" class="text-base font-bold text-slate-900">0 ر.س</span>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-500 block">الفارق</span>
+                    <span id="diffAmount" class="text-base font-bold text-slate-500">0 ر.س</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-heading"><h3 class="section-chip"><span class="section-icon"><i class="fa-solid fa-chart-column" aria-hidden="true"></i></span><span dir="ltr">Total Sales</span></h3></div>
+        <!-- Total Sales -->
+        <div class="total-section mb-8">
+            <div class="bg-white rounded-2xl p-5 card-shadow border border-slate-100 relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute top-0 right-0 left-0 h-1.5 gradient-total"></div>
+                <div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="metric-target"><span class="metric-caption">التارجت</span><strong id="totalSalesTarget">0 ر.س</strong></div>
+                    </div>
+
+                    <div class="total-summary my-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div>
+                            <span class="metric-caption">المبيعات حتى أمس</span>
+                            <div class="text-2xl font-black text-slate-800 mb-1" id="totalSalesAchieved">0 ر.س</div>
+                            <div class="text-xs text-slate-400 flex justify-between">
+                                <span>المتبقي: <strong id="totalSalesRemaining" class="text-slate-700">0 ر.س</strong></span>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <div class="total-pace-display"><span id="totalSalesBadge" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-500">0%</span></div>
+                            <div class="w-full bg-slate-100 rounded-full h-2.5 mb-2">
+                                <div id="totalSalesBar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Run Rate Section for Total Sales -->
+                    <div class="total-rates mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 lg:grid-cols-5 gap-3">
+                        <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-100 flex flex-col justify-center items-center text-center">
+                            <span class="text-xs font-bold text-emerald-900 mb-1">يومياً لـ 100%:</span>
+                            <span id="totalSalesDaily100" class="text-sm font-black text-emerald-600">0 ر.س/يوم</span>
+                        </div>
+
+                        <div class="lg:col-span-4 bg-slate-50 p-3 rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-slate-600 font-bold border border-slate-100 text-center">
+                            <div class="bg-white p-2 rounded-lg border border-slate-100"><span class="block text-slate-400 text-[10px]">لتحقيق 98%</span><span id="totalSalesDaily98" class="text-slate-800 font-black">0 ر.س/يوم</span></div>
+                            <div class="bg-white p-2 rounded-lg border border-slate-100"><span class="block text-slate-400 text-[10px]">لتحقيق 95%</span><span id="totalSalesDaily95" class="text-slate-800 font-black">0 ر.س/يوم</span></div>
+                            <div class="bg-white p-2 rounded-lg border border-slate-100"><span class="block text-slate-400 text-[10px]">لتحقيق 92%</span><span id="totalSalesDaily92" class="text-slate-800 font-black">0 ر.س/يوم</span></div>
+                            <div class="bg-white p-2 rounded-lg border border-slate-100"><span class="block text-slate-400 text-[10px]">لتحقيق 90%</span><span id="totalSalesDaily90" class="text-slate-800 font-black">0 ر.س/يوم</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub-lists Section Header -->
+        <div class="section-heading"><h3 class="section-chip power-chip"><span class="section-icon"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span><span dir="ltr">Power-ups</span></h3></div>
+
+        <!-- KPI Cards Grid for Sub-Lists -->
+        <div class="power-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            
+            <!-- Diamond Card -->
+            <div class="bg-white rounded-2xl p-4 card-shadow border border-slate-100 relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute top-0 right-0 left-0 h-1.5 gradient-diamond"></div>
+                <div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-gem text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 font-en text-sm">Diamond List</h4>
+                            </div>
+                        </div>
+                        <span id="diamondBadge" class="text-xs font-bold px-2 py-0.5 rounded-lg bg-slate-100 text-slate-500">0%</span>
+                    </div>
+
+                    <div class="my-3">
+                        <div class="metric-target compact-target"><span class="metric-caption">التارجت</span><strong id="diamondTarget">0 ر.س</strong></div>
+                        <span class="metric-caption">المبيعات حتى أمس</span>
+                        <div class="text-xl font-black text-slate-800 mb-1" id="diamondAchieved">0 ر.س</div>
+                        <div class="text-[11px] text-slate-400 flex justify-between mb-2">
+                            <span>المتبقي: <strong id="diamondRemaining" class="text-slate-700">0 ر.س</strong></span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div id="diamondBar" class="bg-sky-500 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-2">
+                        <div class="bg-sky-50/60 p-2 rounded-xl border border-sky-100 flex justify-between items-center">
+                            <span class="text-[11px] font-bold text-sky-900">يومياً لـ 100%:</span>
+                            <span id="diamondDaily100" class="text-xs font-black text-sky-600">0 ر.س/يوم</span>
+                        </div>
+
+                        <div class="bg-slate-50 p-2 rounded-xl space-y-1 text-[10px] text-slate-600 font-bold border border-slate-100">
+                            <div class="flex justify-between"><span>لتحقيق 98%:</span><span id="diamondDaily98" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 95%:</span><span id="diamondDaily95" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 92%:</span><span id="diamondDaily92" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 90%:</span><span id="diamondDaily90" class="text-slate-800">0 ر.س/يوم</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gold Card -->
+            <div class="bg-white rounded-2xl p-4 card-shadow border border-slate-100 relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute top-0 right-0 left-0 h-1.5 gradient-gold"></div>
+                <div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-crown text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 font-en text-sm">Gold List</h4>
+                            </div>
+                        </div>
+                        <span id="goldBadge" class="text-xs font-bold px-2 py-0.5 rounded-lg bg-slate-100 text-slate-500">0%</span>
+                    </div>
+
+                    <div class="my-3">
+                        <div class="metric-target compact-target"><span class="metric-caption">التارجت</span><strong id="goldTarget">0 ر.س</strong></div>
+                        <span class="metric-caption">المبيعات حتى أمس</span>
+                        <div class="text-xl font-black text-slate-800 mb-1" id="goldAchieved">0 ر.س</div>
+                        <div class="text-[11px] text-slate-400 flex justify-between mb-2">
+                            <span>المتبقي: <strong id="goldRemaining" class="text-slate-700">0 ر.س</strong></span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div id="goldBar" class="bg-amber-500 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-2">
+                        <div class="bg-amber-50/60 p-2 rounded-xl border border-amber-100 flex justify-between items-center">
+                            <span class="text-[11px] font-bold text-amber-900">يومياً لـ 100%:</span>
+                            <span id="goldDaily100" class="text-xs font-black text-amber-600">0 ر.س/يوم</span>
+                        </div>
+
+                        <div class="bg-slate-50 p-2 rounded-xl space-y-1 text-[10px] text-slate-600 font-bold border border-slate-100">
+                            <div class="flex justify-between"><span>لتحقيق 98%:</span><span id="goldDaily98" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 95%:</span><span id="goldDaily95" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 92%:</span><span id="goldDaily92" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 90%:</span><span id="goldDaily90" class="text-slate-800">0 ر.س/يوم</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Silver Card -->
+            <div class="bg-white rounded-2xl p-4 card-shadow border border-slate-100 relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute top-0 right-0 left-0 h-1.5 gradient-silver"></div>
+                <div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-coins text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 font-en text-sm">Silver List</h4>
+                            </div>
+                        </div>
+                        <span id="silverBadge" class="text-xs font-bold px-2 py-0.5 rounded-lg bg-slate-100 text-slate-500">0%</span>
+                    </div>
+
+                    <div class="my-3">
+                        <div class="metric-target compact-target"><span class="metric-caption">التارجت</span><strong id="silverTarget">0 ر.س</strong></div>
+                        <span class="metric-caption">المبيعات حتى أمس</span>
+                        <div class="text-xl font-black text-slate-800 mb-1" id="silverAchieved">0 ر.س</div>
+                        <div class="text-[11px] text-slate-400 flex justify-between mb-2">
+                            <span>المتبقي: <strong id="silverRemaining" class="text-slate-700">0 ر.س</strong></span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div id="silverBar" class="bg-slate-500 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-2">
+                        <div class="bg-slate-100 p-2 rounded-xl border border-slate-200 flex justify-between items-center">
+                            <span class="text-[11px] font-bold text-slate-800">يومياً لـ 100%:</span>
+                            <span id="silverDaily100" class="text-xs font-black text-slate-700">0 ر.س/يوم</span>
+                        </div>
+
+                        <div class="bg-slate-50 p-2 rounded-xl space-y-1 text-[10px] text-slate-600 font-bold border border-slate-100">
+                            <div class="flex justify-between"><span>لتحقيق 98%:</span><span id="silverDaily98" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 95%:</span><span id="silverDaily95" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 92%:</span><span id="silverDaily92" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 90%:</span><span id="silverDaily90" class="text-slate-800">0 ر.س/يوم</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Own Brand Card -->
+            <div class="bg-white rounded-2xl p-4 card-shadow border border-slate-100 relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute top-0 right-0 left-0 h-1.5 gradient-brand"></div>
+                <div>
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-box-open text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 font-en text-sm">Own Brand</h4>
+                            </div>
+                        </div>
+                        <span id="ownBrandBadge" class="text-xs font-bold px-2 py-0.5 rounded-lg bg-slate-100 text-slate-500">0%</span>
+                    </div>
+
+                    <div class="my-3">
+                        <div class="metric-target compact-target"><span class="metric-caption">التارجت</span><strong id="ownBrandTarget">0 ر.س</strong></div>
+                        <span class="metric-caption">المبيعات حتى أمس</span>
+                        <div class="text-xl font-black text-slate-800 mb-1" id="ownBrandAchieved">0 ر.س</div>
+                        <div class="text-[11px] text-slate-400 flex justify-between mb-2">
+                            <span>المتبقي: <strong id="ownBrandRemaining" class="text-slate-700">0 ر.س</strong></span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-1.5">
+                            <div id="ownBrandBar" class="bg-purple-500 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-2">
+                        <div class="bg-purple-50/60 p-2 rounded-xl border border-purple-100 flex justify-between items-center">
+                            <span class="text-[11px] font-bold text-purple-900">يومياً لـ 100%:</span>
+                            <span id="ownBrandDaily100" class="text-xs font-black text-purple-600">0 ر.س/يوم</span>
+                        </div>
+
+                        <div class="bg-slate-50 p-2 rounded-xl space-y-1 text-[10px] text-slate-600 font-bold border border-slate-100">
+                            <div class="flex justify-between"><span>لتحقيق 98%:</span><span id="ownBrandDaily98" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 95%:</span><span id="ownBrandDaily95" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 92%:</span><span id="ownBrandDaily92" class="text-slate-800">0 ر.س/يوم</span></div>
+                            <div class="flex justify-between"><span>لتحقيق 90%:</span><span id="ownBrandDaily90" class="text-slate-800">0 ر.س/يوم</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Modal 1: Set Targets (Once a Month) -->
+    <div id="targetModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 transform transition-all">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-100 mb-4">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800">تحديد مستهدفات الشهر</h3>
+                    
+                </div>
+                <button onclick="closeTargetModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form id="targetForm" onsubmit="saveTargets(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Total Sales Target</label>
+                    <div class="relative">
+                        <input step="0.01" type="number" id="targetTotalSales" placeholder="أدخل مستهدف إجمالي المبيعات" min="0" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                        <span class="absolute left-3 top-2.5 text-xs text-slate-400 font-bold">ر.س</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Diamond Target</label>
+                        <input step="0.01" type="number" id="targetDiamond" placeholder="0" min="0" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Gold Target</label>
+                        <input step="0.01" type="number" id="targetGold" placeholder="0" min="0" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Silver Target</label>
+                        <input step="0.01" type="number" id="targetSilver" placeholder="0" min="0" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Own Brand Target</label>
+                        <input step="0.01" type="number" id="targetOwnBrand" placeholder="0" min="0" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                    </div>
+                </div>
+
+                <div class="pt-4 flex flex-col sm:flex-row gap-3">
+                    <button type="submit" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md">
+                        حفظ المستهدفات الشهرية
+                    </button>
+                    <button type="button" id="deleteTargets" onclick="clearCurrentMonthData()" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold px-4 py-2.5 rounded-xl text-sm transition-all">
+                        حذف المستهدفات
+                    </button>
+                    <button type="button" onclick="closeTargetModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-4 py-2.5 rounded-xl text-sm">
+                        إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 2: Record Achieved Progress (Daily Record) -->
+    <div id="achievedModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 transform transition-all">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-100 mb-4">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800">المبيعات حتى أمس</h3>
+                    
+                </div>
+                <button onclick="closeAchievedModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form id="achievedForm" onsubmit="saveAchieved(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Total Sales Achieved</label>
+                    <div class="relative">
+                        <input step="0.01" type="number" id="achievedTotalSales" placeholder="أدخل المبيعات المحققة الكلية" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                        <span class="absolute left-3 top-2.5 text-xs text-slate-400 font-bold">ر.س</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Diamond Achieved</label>
+                        <input step="0.01" type="number" id="achievedDiamond" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Gold Achieved</label>
+                        <input step="0.01" type="number" id="achievedGold" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Silver Achieved</label>
+                        <input step="0.01" type="number" id="achievedSilver" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Own Brand Achieved</label>
+                        <input step="0.01" type="number" id="achievedOwnBrand" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-3">
+                    <button type="submit" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md shadow-teal-100">
+                        حفظ المبيعات حتى أمس
+                    </button>
+                    <button type="button" onclick="closeAchievedModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-5 py-2.5 rounded-xl text-sm">
+                        إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        const STORAGE_KEY = 'target_followup_pharmacy_v3';
+        const fields = ['totalSales','diamond','gold','silver','ownBrand'];
+        const emptyValues = () => Object.fromEntries(fields.map(k => [k,0]));
+        const emptyMonth = () => ({targets:emptyValues(),achieved:emptyValues(),targetsSaved:false});
+        const nowAtStart = new Date();
+        let currentMonth = nowAtStart.getMonth()+1;
+        let currentYear = nowAtStart.getFullYear();
+        let editingPeriod = null;
+        const periodKey = () => `${currentYear}-${String(currentMonth).padStart(2,'0')}`;
+        let dashboardData = loadSavedData();
+        function monthData() { return dashboardData[periodKey()] ||= emptyMonth(); }
+        function loadSavedData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if(saved) return JSON.parse(saved);
+                const legacy = JSON.parse(localStorage.getItem('target_followup_pharmacy_v2') || '{}');
+                const migrated = {};
+                for(const [m,d] of Object.entries(legacy)) {
+                    if(!d.targets || !d.achieved) continue;
+                    migrated[`${currentYear}-${String(m).padStart(2,'0')}`] = {...d,targetsSaved:Object.values(d.targets).some(v=>v>0)};
+                }
+                return migrated;
+            } catch(e) { return {}; }
+        }
+        function saveDataToStorage() {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(dashboardData)); return true; }
+            catch(e) { alert('تعذر حفظ البيانات على هذا المتصفح. يرجى إتاحة التخزين ثم المحاولة مرة أخرى.'); return false; }
+        }
+        document.addEventListener('DOMContentLoaded',()=>{
+            const select=document.getElementById('monthSelect');
+            const yearSelect=document.getElementById('yearSelect');
+            const years=Object.keys(dashboardData).map(k=>Number(k.slice(0,4))).filter(Number.isFinite);
+            for(let y=Math.min(currentYear-2,...years);y<=Math.max(currentYear+3,...years);y++) {
+                const option=document.createElement('option'); option.value=y; option.textContent=y; yearSelect.appendChild(option);
+            }
+            for(let m=1;m<=12;m++) {
+                const option=document.createElement('option'); option.value=m;
+                option.textContent=new Intl.DateTimeFormat('ar-EG',{month:'long'}).format(new Date(2026,m-1,1));
+                select.appendChild(option);
+            }
+            select.value=currentMonth; yearSelect.value=currentYear;
+            const changePeriod=()=>{
+                currentYear=Number(yearSelect.value); currentMonth=Number(select.value);
+                closeTargetModal(); closeAchievedModal(); updateDashboard();
+            };
+            select.addEventListener('change',changePeriod); yearSelect.addEventListener('change',changePeriod);
+            document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTargetModal();closeAchievedModal();}});
+            for(const id of ['targetModal','achievedModal']) document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id) {closeTargetModal();closeAchievedModal();}});
+            updateDashboard();
+        });
+
+        function formatCurrency(val) {
+            return new Intl.NumberFormat('en-US').format(Math.round(val)) + ' ر.س';
+        }
+
+        function updateDashboard() {
+            const data = monthData();
+            const targets = data.targets;
+            const achieved = data.achieved;
+
+            const totalTarget = targets.totalSales;
+            const totalAchieved = achieved.totalSales;
+
+
+            const now = new Date();
+            const totalDaysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+            const start = new Date(currentYear,currentMonth-1,1);
+            const end = new Date(currentYear,currentMonth,1);
+            const currentDay = now >= end ? totalDaysInMonth : now < start ? 0 : now.getDate()-1;
+            const remainingDays = totalDaysInMonth-currentDay;
+            const expectedTotal = totalTarget / totalDaysInMonth * currentDay;
+            document.getElementById('targetActionLabel').textContent = 'التارجت';
+            document.getElementById('periodTitle').textContent = new Intl.DateTimeFormat('ar-EG-u-nu-latn',{month:'long',year:'numeric'}).format(new Date(currentYear,currentMonth-1,1));
+
+
+            updateCard('totalSales', achieved.totalSales, targets.totalSales, remainingDays, expectedTotal);
+            updateCard('diamond', achieved.diamond, targets.diamond, remainingDays, targets.diamond / totalDaysInMonth * currentDay);
+            updateCard('gold', achieved.gold, targets.gold, remainingDays, targets.gold / totalDaysInMonth * currentDay);
+            updateCard('silver', achieved.silver, targets.silver, remainingDays, targets.silver / totalDaysInMonth * currentDay);
+            updateCard('ownBrand', achieved.ownBrand, targets.ownBrand, remainingDays, targets.ownBrand / totalDaysInMonth * currentDay);
+
+            updateDailyTrack(totalTarget, totalAchieved, currentDay, totalDaysInMonth, remainingDays);
+        }
+
+        function pacePercentage(achieved, expected) {
+            return expected > 0 ? Math.round(achieved / expected * 100) : null;
+        }
+        function updateCard(type, achieved, target, remainingDays, expectedTotal) {
+            const percent = pacePercentage(achieved, expectedTotal);
+            const remaining = Math.max(0, target - achieved);
+
+            document.getElementById(`${type}Achieved`).innerText = formatCurrency(achieved);
+            document.getElementById(`${type}Target`).innerText = formatCurrency(target);
+            document.getElementById(`${type}Remaining`).innerText = formatCurrency(remaining);
+            document.getElementById(`${type}Bar`).style.width = `${Math.min(percent ?? 0, 100)}%`;
+
+            const badge = document.getElementById(`${type}Badge`);
+            badge.innerText = percent === null ? '—' : `${percent}%`;
+            badge.title = 'المبيعات حتى أمس ÷ المستهدف حتى أمس × 100';
+
+            if (percent === null || (target === 0 && achieved === 0)) {
+                badge.className = "text-xs font-bold px-2 py-0.5 rounded-lg bg-slate-100 text-slate-500";
+            } else if (percent >= 100) {
+                badge.className = "text-xs font-bold px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-700";
+            } else if (percent >= 60) {
+                badge.className = "text-xs font-bold px-2 py-0.5 rounded-lg bg-sky-100 text-sky-700";
+            } else if (percent >= 30) {
+                badge.className = "text-xs font-bold px-2 py-0.5 rounded-lg bg-amber-100 text-amber-700";
+            } else {
+                badge.className = "text-xs font-bold px-2 py-0.5 rounded-lg bg-rose-100 text-rose-700";
+            }
+
+            const calcDailyRequired = (targetPercentage) => {
+                if (target === 0) return '0 ر.س/يوم';
+                const targetAmount = target * (targetPercentage / 100);
+                const stillNeeded = targetAmount - achieved;
+                if (stillNeeded <= 0) return 'مكتمل ✅';
+                if (remainingDays === 0) return 'انتهى الشهر';
+                return formatCurrency(stillNeeded / remainingDays) + '/يوم';
+            };
+
+            document.getElementById(`${type}Daily100`).innerText = calcDailyRequired(100);
+            document.getElementById(`${type}Daily90`).innerText = calcDailyRequired(90);
+            document.getElementById(`${type}Daily92`).innerText = calcDailyRequired(92);
+            document.getElementById(`${type}Daily95`).innerText = calcDailyRequired(95);
+            document.getElementById(`${type}Daily98`).innerText = calcDailyRequired(98);
+        }
+
+        function updateDailyTrack(totalTarget, totalAchieved, currentDay, totalDaysInMonth, remainingDays) {
+            const expectedTillToday = totalTarget > 0 ? Math.round((totalTarget / totalDaysInMonth) * currentDay) : 0;
+            const diff = totalAchieved - expectedTillToday;
+
+            document.getElementById('dayProgressBadge').innerText = `انقضى ${currentDay} من ${totalDaysInMonth} يوم`;
+            document.getElementById('remainingDaysBadge').innerText = `متبقي ${remainingDays} يوم`;
+            document.getElementById('expectedAmount').innerText = formatCurrency(expectedTillToday);
+            document.getElementById('actualAmount').innerText = formatCurrency(totalAchieved);
+
+            const statusTitle = document.getElementById('statusTitle');
+            const diffAmount = document.getElementById('diffAmount');
+            const iconBg = document.getElementById('statusIconBg');
+            const icon = document.getElementById('statusIcon');
+
+            if (totalTarget === 0) {
+                statusTitle.innerText = "يرجى تحديد مستهدفات الشهر أولاً";
+                statusTitle.className = "text-lg font-bold text-slate-700";
+                diffAmount.innerText = "0 ر.س";
+                diffAmount.className = "text-base font-bold text-slate-400";
+                iconBg.className = "w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl font-bold bg-slate-400";
+                icon.className = "fa-solid fa-calculator";
+            } else if (diff >= 0) {
+                statusTitle.innerText = "أداء ممتاز! أنت متقدم عن التارجت اليومي المتوقع 🟢";
+                statusTitle.className = "text-lg font-bold text-emerald-700";
+                diffAmount.innerText = `+${formatCurrency(diff)}`;
+                diffAmount.className = "text-base font-bold text-emerald-600";
+                iconBg.className = "w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl font-bold bg-emerald-500 shadow-lg shadow-emerald-100";
+                icon.className = "fa-solid fa-arrow-trend-up";
+            } else {
+                statusTitle.innerText = "تحذير: أنت متأخر عن المعدل اليومي الموصى به 🔴";
+                statusTitle.className = "text-lg font-bold text-rose-700";
+                diffAmount.innerText = formatCurrency(diff);
+                diffAmount.className = "text-base font-bold text-rose-600";
+                iconBg.className = "w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl font-bold bg-rose-500 shadow-lg shadow-rose-100";
+                icon.className = "fa-solid fa-triangle-exclamation";
+            }
+        }
+
+        // Modals Logic
+        function openTargetModal() {
+            editingPeriod = periodKey();
+            const targets = monthData().targets;
+            document.getElementById('deleteTargets').hidden = !monthData().targetsSaved;
+            document.getElementById('targetTotalSales').value = targets.totalSales > 0 ? targets.totalSales : '';
+            document.getElementById('targetDiamond').value = targets.diamond > 0 ? targets.diamond : '';
+            document.getElementById('targetGold').value = targets.gold > 0 ? targets.gold : '';
+            document.getElementById('targetSilver').value = targets.silver > 0 ? targets.silver : '';
+            document.getElementById('targetOwnBrand').value = targets.ownBrand > 0 ? targets.ownBrand : '';
+
+            document.getElementById('targetModal').classList.remove('hidden');
+        }
+
+        function closeTargetModal() {
+            document.getElementById('targetModal').classList.add('hidden');
+        }
+
+        function saveTargets(e) {
+            e.preventDefault();
+            if(editingPeriod !== periodKey()) return;
+            monthData().targets = {
+                totalSales: parseFloat(document.getElementById('targetTotalSales').value) || 0,
+                diamond: parseFloat(document.getElementById('targetDiamond').value) || 0,
+                gold: parseFloat(document.getElementById('targetGold').value) || 0,
+                silver: parseFloat(document.getElementById('targetSilver').value) || 0,
+                ownBrand: parseFloat(document.getElementById('targetOwnBrand').value) || 0
+            };
+
+            monthData().targetsSaved = true;
+            if(!saveDataToStorage()) return;
+            updateDashboard();
+            closeTargetModal();
+        }
+
+        function openAchievedModal() {
+            editingPeriod = periodKey();
+            const achieved = monthData().achieved;
+            document.getElementById('achievedTotalSales').value = achieved.totalSales > 0 ? achieved.totalSales : '';
+            document.getElementById('achievedDiamond').value = achieved.diamond > 0 ? achieved.diamond : '';
+            document.getElementById('achievedGold').value = achieved.gold > 0 ? achieved.gold : '';
+            document.getElementById('achievedSilver').value = achieved.silver > 0 ? achieved.silver : '';
+            document.getElementById('achievedOwnBrand').value = achieved.ownBrand > 0 ? achieved.ownBrand : '';
+
+            document.getElementById('achievedModal').classList.remove('hidden');
+        }
+
+        function closeAchievedModal() {
+            document.getElementById('achievedModal').classList.add('hidden');
+        }
+
+        function saveAchieved(e) {
+            e.preventDefault();
+            if(editingPeriod !== periodKey()) return;
+            monthData().achieved = {
+                totalSales: parseFloat(document.getElementById('achievedTotalSales').value) || 0,
+                diamond: parseFloat(document.getElementById('achievedDiamond').value) || 0,
+                gold: parseFloat(document.getElementById('achievedGold').value) || 0,
+                silver: parseFloat(document.getElementById('achievedSilver').value) || 0,
+                ownBrand: parseFloat(document.getElementById('achievedOwnBrand').value) || 0
+            };
+
+            if(!saveDataToStorage()) return;
+            updateDashboard();
+            closeAchievedModal();
+        }
+
+        function clearCurrentMonthData() {
+            if(!confirm('حذف مستهدفات الشهر المحدد؟ ستظل المبيعات المسجلة محفوظة.')) return;
+            monthData().targets = emptyValues();
+            monthData().targetsSaved = false;
+            if(!saveDataToStorage()) return;
+            updateDashboard(); closeTargetModal();
+        }
+    </script>
+</body>
+</html>
