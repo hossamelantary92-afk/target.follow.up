@@ -642,7 +642,7 @@
         }
 
         function pacePercentage(achieved, expected) {
-            return expected > 0 ? Math.round(achieved / expected * 100) : null;
+            return expected > 0 ? (achieved / expected * 100) : null;
         }
         function updateCard(type, achieved, target, remainingDays, expectedTotal) {
             const percent = pacePercentage(achieved, expectedTotal);
@@ -654,7 +654,7 @@
             document.getElementById(`${type}Bar`).style.width = `${Math.min(percent ?? 0, 100)}%`;
 
             const badge = document.getElementById(`${type}Badge`);
-            badge.innerText = percent === null ? '—' : `${percent}%`;
+            badge.innerText = percent === null ? '—' : `${Number(percent.toFixed(1))}%`;
             badge.title = 'المبيعات حتى أمس ÷ المستهدف حتى أمس × 100';
 
             if (percent === null || (target === 0 && achieved === 0)) {
