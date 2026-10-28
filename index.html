@@ -211,13 +211,8 @@
           header button{width:100%;display:grid!important;grid-template-columns:18px auto;justify-content:center;align-items:center;gap:6px}
           header button i{width:18px;text-align:center}
         }
-        .sales-date-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;background:#f0fdfa;border:1px solid #ccfbf1;border-radius:12px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:#115e59}
-        .sales-date-row label{font-weight:800}.sales-date-row input,input.sales-date-input{font:600 14px Inter,Cairo,sans-serif;border:1px solid #cbd5e1;border-radius:8px;background:white;padding:7px 9px;min-height:42px;min-width:0;max-width:100%;color:#16344a;direction:ltr}
-        .sales-date-row small{color:#64748b}.sales-date-input{width:100%}
 
         /* Balanced summary and Safari-safe date fields. */
-        .sales-date-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(145px,190px);align-items:center;padding:8px 12px;gap:12px}
-        .sales-date-row label{display:flex;align-items:center;gap:7px;margin:0;font-size:12px}
         input[type=date]{box-sizing:border-box;-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;min-inline-size:0;max-width:100%;height:44px;margin:0;border:1px solid #dbe5ed;border-radius:10px;background:#f8fafc;padding:9px 12px;font-family:Inter,Cairo,sans-serif;font-size:16px;line-height:24px;color:#16344a;text-align:right}
         input[type=date]::-webkit-date-and-time-value{text-align:right;min-height:24px;margin:0}
         input[type=date]::-webkit-datetime-edit{padding:0;min-width:0}
@@ -246,8 +241,6 @@
         #achievedForm>.pt-4{display:grid;grid-template-columns:minmax(0,1fr) 80px;gap:8px;padding-top:12px;border-top:1px solid #edf2f7;margin-top:2px!important}
         #achievedForm>.pt-4>button{grid-column:auto!important;min-height:44px;padding:9px 10px;border-radius:10px;font-size:12px;box-shadow:none}
         @media(max-width:640px){
-          .sales-date-row{grid-template-columns:minmax(0,1fr) minmax(0,165px);gap:8px;padding:8px 10px}
-          .sales-date-row label{font-size:11px}
           .total-section .total-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}
           .total-section .total-summary .metric-caption{min-height:0;font-size:10px}
           .total-section .total-summary .total-target-cell strong,.total-section #totalSalesAchieved{font-size:22px;line-height:1.5}
@@ -257,7 +250,6 @@
           .status-metrics>div>span:first-child{min-height:30px;line-height:1.5;font-size:9px}
           .status-metrics>div>span:last-child{font-size:11px}
         }
-        @media(max-width:360px){.total-section .total-summary .total-target-cell strong,.total-section #totalSalesAchieved{font-size:19px}.sales-date-row{grid-template-columns:minmax(0,1fr) 145px}#achievedModal>div{padding:14px}}
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen pb-12">
@@ -300,10 +292,6 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
 
         <div class="overview-heading"><div><span class="eyebrow">MONTHLY PERFORMANCE</span><h2 id="periodTitle"></h2><p>تابع أداءك، واقترب من هدفك.</p></div></div>
-        <div class="sales-date-row">
-            <label for="salesThroughDate"><i class="fa-regular fa-calendar" aria-hidden="true"></i> المبيعات حتى يوم</label>
-            <input type="date" id="salesThroughDate" onchange="changeSalesDate(this)">
-        </div>
         <!-- Top Daily Rate Indicator Banner -->
         <div id="dailyStatusBanner" class="mb-8 rounded-2xl p-5 bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-4">
@@ -741,13 +729,6 @@
         function configureDateInput(input,value) {
             const {min,max}=dateBounds();input.min=min;input.max=max;input.disabled=max<min;input.value=value || '';
         }
-        function changeSalesDate(input) {
-            if(!validSalesDate(input.value)){input.reportValidity();updateDashboard();return;}
-            const previous=monthData().salesThroughDate;
-            monthData().salesThroughDate=input.value;
-            if(!saveDataToStorage()){monthData().salesThroughDate=previous;updateDashboard();return;}
-            updateDashboard();
-        }
 
         function formatCurrency(val) {
             return new Intl.NumberFormat('en-US').format(Math.round(val)) + ' ر.س';
@@ -768,7 +749,6 @@
             const end = new Date(currentYear,currentMonth,1);
             const hasDate=validSalesDate(data.salesThroughDate);
             const currentDay = hasDate ? Number(data.salesThroughDate.slice(8,10)) : 0;
-            configureDateInput(document.getElementById('salesThroughDate'),hasDate ? data.salesThroughDate : '');
             const dateCaption=hasDate ? new Intl.DateTimeFormat('ar-EG-u-nu-latn',{day:'numeric',month:'long'}).format(new Date(currentYear,currentMonth-1,currentDay)) : null;
             document.querySelectorAll('.metric-caption').forEach(el=>{if(el.textContent.startsWith('المبيعات')) el.textContent=dateCaption ? 'المبيعات المحققة حتى '+dateCaption : 'المبيعات المحققة';});
             const remainingDays = totalDaysInMonth-currentDay;
