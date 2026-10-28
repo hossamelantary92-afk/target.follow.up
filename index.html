@@ -214,6 +214,50 @@
         .sales-date-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;background:#f0fdfa;border:1px solid #ccfbf1;border-radius:12px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:#115e59}
         .sales-date-row label{font-weight:800}.sales-date-row input,input.sales-date-input{font:600 14px Inter,Cairo,sans-serif;border:1px solid #cbd5e1;border-radius:8px;background:white;padding:7px 9px;min-height:42px;min-width:0;max-width:100%;color:#16344a;direction:ltr}
         .sales-date-row small{color:#64748b}.sales-date-input{width:100%}
+
+        /* Balanced summary and Safari-safe date fields. */
+        .sales-date-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(145px,190px);align-items:center;padding:8px 12px;gap:12px}
+        .sales-date-row label{display:flex;align-items:center;gap:7px;margin:0;font-size:12px}
+        input[type=date]{box-sizing:border-box;-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;min-inline-size:0;max-width:100%;height:44px;margin:0;border:1px solid #dbe5ed;border-radius:10px;background:#f8fafc;padding:9px 12px;font-family:Inter,Cairo,sans-serif;font-size:16px;line-height:24px;color:#16344a;text-align:right}
+        input[type=date]::-webkit-date-and-time-value{text-align:right;min-height:24px;margin:0}
+        input[type=date]::-webkit-datetime-edit{padding:0;min-width:0}
+        .total-section .total-summary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr);gap:16px;margin:0;align-items:start}
+        .total-section .total-summary>div{padding:0;border:0;min-width:0;grid-column:auto}
+        .total-section .total-summary .metric-caption{min-height:20px;font-size:11px;line-height:1.7;margin-bottom:4px}
+        .total-section .total-summary .total-target-cell strong,.total-section #totalSalesAchieved{font-size:clamp(20px,2.5vw,30px);line-height:1.5;margin:0;overflow-wrap:anywhere}
+        .total-section .total-progress-cell{align-self:center;padding-inline-start:16px!important;border-inline-start:1px solid #e8eef3!important}
+        .total-section #totalSalesBadge{font-size:38px!important;line-height:1.2}.total-section .total-pace-display{margin-bottom:10px}
+        .total-section .total-summary>div:nth-child(2)>.flex{font-size:11px;margin-top:3px}
+        .status-metrics>div{display:flex;flex-direction:column;justify-content:space-between;align-self:stretch;gap:4px}
+        .status-metrics>div>span:first-child{min-height:32px;display:flex;align-items:center;justify-content:center}
+        #achievedModal{padding:12px}
+        #achievedModal>div{width:100%;max-width:460px;padding:18px;max-height:calc(100dvh - 24px);border-radius:20px;scroll-padding:16px}
+        #achievedModal>div>div:first-child{padding-bottom:12px;margin-bottom:14px;align-items:center}
+        #achievedModal h3{font-size:18px;line-height:1.5}
+        #achievedModal>div>div:first-child>button{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:#f1f5f9;border-radius:10px;flex-shrink:0}
+        #achievedForm{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+        #achievedForm>*{margin:0!important;min-width:0}
+        #achievedModal label{display:block;font-size:12px;font-weight:700;line-height:1.5;margin:0 0 6px}
+        #achievedForm>.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px}
+        #achievedForm>.grid label{direction:ltr;text-align:right;font-family:Inter,Cairo,sans-serif;font-size:11px}
+        #achievedForm input[type=number]{display:block;box-sizing:border-box;width:100%;min-width:0;height:46px;min-height:46px;padding:10px 12px!important;border:1px solid #dbe5ed;border-radius:10px;background:#f8fafc;font-size:16px!important;line-height:24px}
+        #achievedForm #achievedTotalSales{padding-left:44px!important}
+        #achievedForm .relative>span{top:50%;transform:translateY(-50%);left:12px;font-size:11px}
+        #achievedForm>.pt-4{display:grid;grid-template-columns:minmax(0,1fr) 80px;gap:8px;padding-top:12px;border-top:1px solid #edf2f7;margin-top:2px!important}
+        #achievedForm>.pt-4>button{grid-column:auto!important;min-height:44px;padding:9px 10px;border-radius:10px;font-size:12px;box-shadow:none}
+        @media(max-width:640px){
+          .sales-date-row{grid-template-columns:minmax(0,1fr) minmax(0,165px);gap:8px;padding:8px 10px}
+          .sales-date-row label{font-size:11px}
+          .total-section .total-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}
+          .total-section .total-summary .metric-caption{min-height:0;font-size:10px}
+          .total-section .total-summary .total-target-cell strong,.total-section #totalSalesAchieved{font-size:22px;line-height:1.5}
+          .total-section .total-progress-cell{grid-column:1/-1!important;border:0!important;border-top:1px solid #edf2f7!important;padding:10px 0 0!important;display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;direction:ltr}
+          .total-section .total-pace-display{margin:0}.total-section #totalSalesBadge{font-size:30px!important;letter-spacing:-1px}
+          .total-progress-cell>.w-full{margin:0;direction:rtl}
+          .status-metrics>div>span:first-child{min-height:30px;line-height:1.5;font-size:9px}
+          .status-metrics>div>span:last-child{font-size:11px}
+        }
+        @media(max-width:360px){.total-section .total-summary .total-target-cell strong,.total-section #totalSalesAchieved{font-size:19px}.sales-date-row{grid-template-columns:minmax(0,1fr) 145px}#achievedModal>div{padding:14px}}
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen pb-12">
@@ -278,7 +322,7 @@
             
             <div class="status-metrics flex items-center gap-6 text-center md:text-right border-t md:border-t-0 md:border-r border-slate-100 pt-3 md:pt-0 pr-0 md:pr-6 w-full md:w-auto justify-around">
                 <div>
-                    <span class="text-xs text-slate-500 block">المفترض تحقيقه حتي أمس</span>
+                    <span class="text-xs text-slate-500 block">المستهدف حتى التاريخ المحدد</span>
                     <span id="expectedAmount" class="text-base font-bold text-slate-700">0 ر.س</span>
                 </div>
                 <div>
@@ -298,11 +342,8 @@
             <div class="bg-white rounded-2xl p-5 card-shadow border border-slate-100 relative overflow-hidden flex flex-col justify-between">
                 <div class="absolute top-0 right-0 left-0 h-1.5 gradient-total"></div>
                 <div>
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="metric-target"><span class="metric-caption">التارجت</span><strong id="totalSalesTarget">0 ر.س</strong></div>
-                    </div>
-
-                    <div class="total-summary my-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                    <div class="total-summary my-4 grid items-center">
+                        <div class="total-target-cell metric-target"><span class="metric-caption">التارجت</span><strong id="totalSalesTarget">0 ر.س</strong></div>
                         <div>
                             <span class="metric-caption">المبيعات المحققة</span>
                             <div class="text-2xl font-black text-slate-800 mb-1" id="totalSalesAchieved">0 ر.س</div>
@@ -310,7 +351,7 @@
                                 <span>المتبقي: <strong id="totalSalesRemaining" class="text-slate-700">0 ر.س</strong></span>
                             </div>
                         </div>
-                        <div class="md:col-span-2">
+                        <div class="total-progress-cell">
                             <div class="total-pace-display"><span id="totalSalesBadge" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-500">0%</span></div>
                             <div class="w-full bg-slate-100 rounded-full h-2.5 mb-2">
                                 <div id="totalSalesBar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
@@ -596,7 +637,7 @@
                 <input class="sales-date-input" type="date" id="achievedThroughDate" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Total Sales Achieved</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">إجمالي المبيعات</label>
                     <div class="relative">
                         <input step="0.01" type="number" id="achievedTotalSales" placeholder="أدخل المبيعات المحققة الكلية" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
                         <span class="absolute left-3 top-2.5 text-xs text-slate-400 font-bold">ر.س</span>
@@ -605,26 +646,26 @@
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Diamond Achieved</label>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Diamond List</label>
                         <input step="0.01" type="number" id="achievedDiamond" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Gold Achieved</label>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Gold List</label>
                         <input step="0.01" type="number" id="achievedGold" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Silver Achieved</label>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Silver List</label>
                         <input step="0.01" type="number" id="achievedSilver" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Own Brand Achieved</label>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Own Brand</label>
                         <input step="0.01" type="number" id="achievedOwnBrand" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:border-teal-500">
                     </div>
                 </div>
 
                 <div class="pt-4 flex gap-3">
                     <button type="submit" class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md shadow-teal-100">
-                        حفظ المبيعات المحققة
+                        حفظ المبيعات
                     </button>
                     <button type="button" onclick="closeAchievedModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-5 py-2.5 rounded-xl text-sm">
                         إلغاء
